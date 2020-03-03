@@ -1,3 +1,12 @@
+
+library(tidyverse)
+library(data.table)
+library(readxl)
+library(lubridate)
+
+
+
+
 #install.packages("RJDBC")
 #install.packages("RMySQL")
 options(java.parameters = "-Xmx14g") # 메모리를 14G 까지 쓸 수 있도록 설정

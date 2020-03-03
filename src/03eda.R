@@ -1,26 +1,48 @@
 
+
+## wfood eda
+
+wfood %>% dim()
+
+wfood$season = NA 
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("06","07","08")]  = "summer"
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("09","10")]  = "fall"
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("11","12","01","02")]  = "winter"
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("03","04","05")]  = "spring"
+
 wfood
-gds_dtl
-gds_rvw
-wtr
-wtr_fct
-pub_hol
+
+#wfood %>% mutate(season = ifelse(substr(invoicedate, 6, 7) %in% c("06","07","08") , "summer",
+#                 ifelse(substr(invoicedate, 6, 7) %in% c("09","10"), "fall",
+#                        ifelse(substr(invoicedate, 6, 7) %in% c("11","12","01","02"), "winter",
+#                               ifelse(substr(invoicedate, 6, 7) %in% c("03","04","05"), "spring")))))
 
 
 
 
-wfood %>% head
-
-summary(wfood)
-colSums(is.na(wfood))
-str(wfood)
-
-wfood$invoicedate %>% max
-wfood$invoicedate %>% min
+wfood %>% group_by(season) %>% summarise(mean_qty = mean(qty))
 
 
 
-wfood$custclass %>% unique
 
-ggplot(wfood, aes(x = custclass, y = qty)) + 
-  geom_bar(stat = "identity", fill = "lightblue", colour = "black")
+
+
+
+## weather eda
+weather = mutate(weather, month = substr(mtime, 6, 7))
+colSums(is.na(weather))
+
+
+
+weather %>% 
+  ggplot(aes(x = mtime, y = curtemp_mean)) +
+  geom_line()
+
+weather %>% filter(area == "강릉") %>% 
+  ggplot(aes(x = mtime, y = mintemp_mean)) +
+  geom_line()
+
+weather %>% filter(area == "서울") %>% 
+  ggplot(aes(x = mtime, y = maxtemp_mean)) +
+  geom_line()
+
