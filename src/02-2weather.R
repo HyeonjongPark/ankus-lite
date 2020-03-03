@@ -69,3 +69,14 @@ wtr_fct_pp = wtr_fct %>% group_by(ftime, area) %>% summarise(mintemp_mean = mean
                                                      maxtemp_mean = mean(maxtemp))
 wtr_fct_pp = as.data.table(wtr_fct_pp)
 wtr_fct_pp
+names(wtr_fct_pp)[1] = "mtime"
+
+
+
+weather = full_join(wtr_pp, wtr_fct_pp)
+colSums(is.na(weather))
+
+
+fwrite(weather, "./preprocessing_data/weather.csv")
+
+

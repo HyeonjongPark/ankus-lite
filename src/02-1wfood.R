@@ -29,3 +29,26 @@ wfood = wfood %>% arrange(invoicedate) %>% as.data.table()
 
 wfood
 wfood$itemname %>% unique
+
+colSums(is.na(wfood))
+
+
+wfood
+
+
+pub_hol = read_excel("./ankus-lite-wfood_113211/pubholiday.xls", 1)
+pub_hol = as.data.table(pub_hol)
+
+pub_hol$locdate = as.Date(pub_hol$locdate, "%Y%m%d")
+names(pub_hol)[1] = "invoicedate"
+pub_hol
+
+wfood = full_join(wfood, pub_hol)
+
+wfood$isholiday[is.na(wfood$isholiday)] = "N"
+
+wfood
+table(wfood$isholiday)
+
+
+fwrite(wfood, "./preprocessing_data/wfood.csv")
