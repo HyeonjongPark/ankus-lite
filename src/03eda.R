@@ -13,6 +13,7 @@ wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("03","04","05")]  = "spring"
 wfood %>% head
 wfood$item %>% table
 wfood$companyname %>% table()
+
 #wfood %>% mutate(season = ifelse(substr(invoicedate, 6, 7) %in% c("06","07","08") , "summer",
 #                 ifelse(substr(invoicedate, 6, 7) %in% c("09","10"), "fall",
 #                        ifelse(substr(invoicedate, 6, 7) %in% c("11","12","01","02"), "winter",
@@ -72,7 +73,7 @@ wfood %>% filter(invoicedate <= "2018-12-30") %>%
 weather = mutate(weather, month = substr(mtime, 6, 7))
 colSums(is.na(weather))
 
-
+weather %>% head
 
 weather %>% 
   ggplot(aes(x = mtime, y = curtemp_mean)) +
@@ -85,4 +86,27 @@ weather %>% filter(area == "강릉") %>%
 weather %>% filter(area == "서울") %>% 
   ggplot(aes(x = mtime, y = maxtemp_mean)) +
   geom_line()
+
+
+
+
+
+
+
+## goods eda
+
+goods %>% head
+goods$item %>% table()
+
+
+goods2 = goods[goods$item != "",]
+
+goods2 %>% group_by(item) %>% summarise(rec_mean = mean(as.integer(recommand))) %>% 
+  ggplot(aes(x = reorder(item, rec_mean), y = rec_mean)) + geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() + 
+  labs(x = "아이템명", y = "평균추천수") + ggtitle("아이템별 평균 추천수") +
+  theme(title = element_text(size = 15))
+
+
+
 
