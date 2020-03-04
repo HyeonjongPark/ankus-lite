@@ -81,6 +81,7 @@ ggplot(as.data.frame(sentiment_result), aes(x = "", y = Freq, fill = Var1)) +
   theme_void() + ggtitle("감성분석 결과") +
   theme(plot.title = element_text(size = 20))
 
+ggsave("./visualization/리뷰데이터감성분석.jpg")
 
 
 
