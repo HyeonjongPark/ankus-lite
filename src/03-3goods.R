@@ -151,3 +151,8 @@ a$sep = "senti_score"
 rec_mean = rbind(rec_mean, a)
 ggplot(rec_mean, aes(x = recommand, y = mean, fill = sep)) + 
   geom_bar(stat = "identity", position = "dodge")
+
+
+goods %>% head
+
+goods[grep("칼몬드 100g", goods$goods_nm),]
