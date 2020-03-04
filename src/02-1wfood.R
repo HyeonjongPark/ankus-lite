@@ -48,7 +48,8 @@ wfood = full_join(wfood, pub_hol)
 wfood$isholiday[is.na(wfood$isholiday)] = "N"
 
 wfood
+head(wfood)
 table(wfood$isholiday)
 
 
-fwrite(wfood, "./preprocessing_data/wfood.csv")
+#fwrite(wfood, "./preprocessing_data/wfood.csv")

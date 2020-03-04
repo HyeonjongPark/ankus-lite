@@ -21,6 +21,14 @@ goods %>% dim()
 # 기상데이터 2018 01 ~ 05월까지 결측데이터가 존재. => 201805~ 201905 로 한정시간 변경
 
 wfood = wfood %>% filter(invoicedate >= "2018-05-29" & invoicedate <= "2019-05-09")
+wfood[wfood$invoicedate == "2019-01-01",]$isholiday = "Y"
+wfood[wfood$invoicedate == "2019-02-04",]$isholiday = "Y"
+wfood[wfood$invoicedate == "2019-02-05",]$isholiday = "Y"
+wfood[wfood$invoicedate == "2019-02-06",]$isholiday = "Y"
+wfood[wfood$invoicedate == "2019-03-01",]$isholiday = "Y"
+wfood[wfood$invoicedate == "2019-05-05",]$isholiday = "Y"
+wfood[wfood$invoicedate == "2019-05-12",]$isholiday = "Y"
+
 weather = weather %>% filter(mtime >= "2018-05-29" & mtime <= "2019-05-09")
 goods = goods %>% filter(cret_dt.x >= "2018-05-29" & cret_dt.x <= "2019-05-09")
 

@@ -50,7 +50,7 @@ wfood %>% group_by(companyname) %>% summarise(mean_qty = mean(qty)) %>%
 
 
 # 공휴일 유무에 따른 판매량
-wfood %>% filter(invoicedate <= "2018-12-30") %>% 
+wfood %>% 
   group_by(isholiday) %>% summarise(mean_qty = mean(qty)) %>% 
   ggplot(aes(x = isholiday, y = mean_qty)) + geom_bar(stat = "identity", fill = "skyblue") + 
   labs(x = "공휴일유무", y = "평균판매량") + ggtitle("공휴일 유무에 따른 판매량") +
@@ -58,4 +58,74 @@ wfood %>% filter(invoicedate <= "2018-12-30") %>%
 
 
 
-wfood
+wfood %>% head
+dim(wfood)
+wfood$custname %>% unique()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 편의점으로 한정하고 생각해보기.
+
+conven = wfood %>% filter(custclass == "편의점")
+conven$custname %>% table() %>% length()
+
+
+
+# 계절별 판매량
+conven %>% group_by(season) %>% summarise(mean_qty = mean(qty)) %>% 
+  ggplot(aes(x = season, y = mean_qty)) + geom_bar(stat = "identity", fill = "skyblue") + 
+  labs(x = "계절", y = "평균판매량") + ggtitle("계절별 판매량") +
+  theme(title = element_text(size = 15))
+
+# 아이템별 판매량
+conven %>% group_by(item) %>% summarise(mean_qty = mean(qty)) %>% 
+  ggplot(aes(x = item, y = mean_qty)) + geom_bar(stat = "identity", fill = "skyblue") + 
+  labs(x = "아이템", y = "평균판매량") + ggtitle("아이템별 판매량") +
+  theme(title = element_text(size = 15))
+table(conven$item)
+
+# 회사별 판매량
+conven %>% group_by(companyname) %>% summarise(mean_qty = mean(qty)) %>% 
+  ggplot(aes(x = companyname, y = mean_qty)) + geom_bar(stat = "identity", fill = "skyblue") + 
+  labs(x = "회사명", y = "평균판매량") + ggtitle("회사별 판매량") +
+  theme(title = element_text(size = 15))
+
+
+# 공휴일 유무에 따른 판매량
+conven %>% 
+  group_by(isholiday) %>% summarise(mean_qty = mean(qty)) %>% 
+  ggplot(aes(x = isholiday, y = mean_qty)) + geom_bar(stat = "identity", fill = "skyblue") + 
+  labs(x = "공휴일유무", y = "평균판매량") + ggtitle("공휴일 유무에 따른 판매량") +
+  theme(title = element_text(size = 15))
+
+
+
+conven %>% head
+table(conven$itemname) %>% sort()
+
+conven %>% filter(itemname == "칼몬드 100G") %>% tail(30)
+
+conven_sp = conven %>% filter(itemname == "칼몬드 100G" & custname == "코리아세븐 대구물류센터") %>% 
+  ggplot(aes(x =invoicedate , y = qty)) + geom_line()
+
+
+conven_sp
+
+
+
+
+
+

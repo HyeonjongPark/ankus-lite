@@ -4,9 +4,10 @@
 weather = mutate(weather, month = substr(mtime, 6, 7))
 colSums(is.na(weather))
 
-weather %>% head
+weather %>% head(50)
+weather$area %>% unique()
 
-weather %>% 
+weather %>% filter(area == "강릉") %>% 
   ggplot(aes(x = mtime, y = curtemp_mean)) +
   geom_line()
 
@@ -20,4 +21,5 @@ weather %>% filter(area == "서울") %>%
 
 
 
-
+weather_daegu = weather %>% filter(area == "대구")
+weather_daegu$area = NULL
