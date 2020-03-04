@@ -19,14 +19,13 @@ wfood$companyname %>% table()
 #                               ifelse(substr(invoicedate, 6, 7) %in% c("03","04","05"), "spring")))))
 
 
-
+wfood %>% head
 
 # 업종별 빈도
 wfood$custclass %>% table() %>% as.data.frame() %>% 
   ggplot(aes(x = ., y = Freq)) + geom_bar(stat = "identity", fill = "skyblue") +
   labs(x = "custclass", y = "빈도") + ggtitle("업종별 빈도") +
   theme(title = element_text(size = 15))
-
 
 
 # 계절별 판매량
@@ -58,3 +57,5 @@ wfood %>% filter(invoicedate <= "2018-12-30") %>%
   theme(title = element_text(size = 15))
 
 
+
+wfood
