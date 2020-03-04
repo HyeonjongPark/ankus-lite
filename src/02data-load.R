@@ -29,6 +29,8 @@ wfood[wfood$invoicedate == "2019-03-01",]$isholiday = "Y"
 wfood[wfood$invoicedate == "2019-05-05",]$isholiday = "Y"
 wfood[wfood$invoicedate == "2019-05-12",]$isholiday = "Y"
 
+as.data.table(wfood)
+
 weather = weather %>% filter(mtime >= "2018-05-29" & mtime <= "2019-05-09")
 goods = goods %>% filter(cret_dt.x >= "2018-05-29" & cret_dt.x <= "2019-05-09")
 

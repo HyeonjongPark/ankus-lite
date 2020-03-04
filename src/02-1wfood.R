@@ -22,7 +22,7 @@ for(i in 1:3) {
 
 
 wfood = as.data.table(wfood)
-
+wfood
 
 wfood$invoicedate = as.Date(wfood$invoicedate, '%Y%m%d') 
 wfood = wfood %>% arrange(invoicedate) %>% as.data.table()
@@ -51,5 +51,8 @@ wfood
 head(wfood)
 table(wfood$isholiday)
 
+wfood %>% as.data.table()
+
+wfood = wfood %>% arrange(invoicedate) %>% as.data.table()
 
 #fwrite(wfood, "./preprocessing_data/wfood.csv")

@@ -76,7 +76,6 @@ wfood$custname %>% unique()
 
 
 
-
 ## 편의점으로 한정하고 생각해보기.
 
 conven = wfood %>% filter(custclass == "편의점")
@@ -118,14 +117,32 @@ table(conven$itemname) %>% sort()
 
 conven %>% filter(itemname == "칼몬드 100G") %>% tail(30)
 
-conven_sp = conven %>% filter(itemname == "칼몬드 100G" & custname == "코리아세븐 대구물류센터") %>% 
-  ggplot(aes(x =invoicedate , y = qty)) + geom_line()
+conven %>% filter(itemname == "칼몬드 100G" & custname == "코리아세븐 대구물류센터") %>% 
+  ggplot(aes(x =invoicedate , y = qty)) + geom_line(color = "orange") + labs(x = "date", y = "판매량") +
+  ggtitle("코리아세븐 대구물류센터 - 칼몬드 100G")
 
+
+
+
+
+conven_sp = conven %>% filter(itemname == "칼몬드 100G" & custname == "코리아세븐 대구물류센터") 
 
 conven_sp
+names(weather_daegu)[1] = "invoicedate"
+weather_daegu
+
+conven_sp = left_join(conven_sp, weather_daegu, by = "invoicedate")
+conven_sp
+
+attach(conven_sp)
+lm(qty ~ isholiday + season + curtemp_mean + bodytemp_mean + humidity_mean + rainfall_mean +
+     mintemp_mean + maxtemp_mean) %>% summary()
+detach(conven_sp)
+
+
+conven_sp %>% head
 
 
 
 
-
-
+conven$itemname %>% unique()

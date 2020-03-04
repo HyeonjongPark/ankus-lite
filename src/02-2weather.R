@@ -33,8 +33,9 @@ wtr$mtime = str_replace(wtr$mtime, "Dec", "12")
 wtr$mtime = as.Date(wtr$mtime, '%Y-%m-%d')
 
 wtr = wtr %>% arrange(mtime) %>% as.data.table()
-
+wtr
 wtr$rainfall = ifelse(wtr$rainfall == "NULL", 0, wtr$rainfall)
+
 wtr$rainfall = as.double(wtr$rainfall)
 wtr$stat = ifelse(wtr$stat == "", "미측정", wtr$stat)
 
