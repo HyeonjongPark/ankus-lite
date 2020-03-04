@@ -23,22 +23,23 @@ gds_rvw %>% as.data.table()
 
 gds = left_join(gds_rvw, gds_dtl, by = c("goods_no", "goods_no"))
 gds = as.data.table(gds)
+gds %>% head
 gds$goods_url =NULL
 gds$writer = NULL
 gds$review_no = NULL
 gds$purch_de = NULL
-gds$last_updt_dt.x %>% unique()
+#gds$last_updt_dt.x %>% unique()
 gds$last_updt_dt.x = NULL
-gds$last_updt_dt.y %>% unique()
+#gds$last_updt_dt.y %>% unique()
 gds$last_updt_dt.y = NULL
-gds$delivery %>% table()
+#gds$delivery %>% table()
 gds$goods_option = NULL
 gds$goods_sttus =NULL
 gds$orgnp = NULL
 gds$brand = NULL
-gds$prdnm_modlnm %>% unique()
+#gds$prdnm_modlnm %>% unique()
 gds$prdnm_modlnm = NULL
-gds$cttpc %>% unique()
+#gds$cttpc %>% unique()
 gds$cttpc =NULL
 gds$cret_dt.y = NULL
 gds$shopng_knd = NULL
@@ -54,7 +55,7 @@ gds$cret_dt.x = as.Date(gds$cret_dt.x, '%Y-%m-%d')
 gds
 
 gds = gds %>% arrange(cret_dt.x) %>% as.data.table()
-gds
+colnames(gds)
 
 getwd()
 fwrite(gds, "./preprocessing_data/goods.csv")

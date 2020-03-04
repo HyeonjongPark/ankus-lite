@@ -40,7 +40,7 @@ wtr$rainfall = as.double(wtr$rainfall)
 wtr$stat = ifelse(wtr$stat == "", "미측정", wtr$stat)
 
 wtr %>% str
-
+wtr
 
 colSums(is.na(wtr))
 
@@ -75,9 +75,9 @@ names(wtr_fct_pp)[1] = "mtime"
 
 
 weather = full_join(wtr_pp, wtr_fct_pp)
+weather %>% as.data.table()
 colSums(is.na(weather))
 
-
-fwrite(weather, "./preprocessing_data/weather.csv")
+#fwrite(weather, "./preprocessing_data/weather.csv")
 
 
