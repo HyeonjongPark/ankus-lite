@@ -69,7 +69,6 @@ conven_sp = conven_sp %>% mutate(qty_class = ifelse(qty == 24, 1,
                                           ifelse(qty == 96, 4, 5)))))
 
 
-conven_sp
 
 conven_sp %>% group_by(qty_class) %>% summarise(mean_cur = mean(curtemp_mean))
 
@@ -197,5 +196,108 @@ print(noundata)
 png("wordcloud.png", width = 400, height = 300)
 wordcloud(names(noundata), freq = noundata, min.freq = 20, random.order = T,
           rot.per = 0, col = pal)
+
+
+
+
+
+
+
+## 워드클라우드 min 과 max를 기준으로
+min_qty_date = conven_sp  %>% filter(qty_class == 1) %>% select(invoicedate)
+max_qty_date = conven_sp  %>% filter(qty_class == 5) %>% select(invoicedate)
+
+## 18-11-01 ~ 19-01-15 : 감소추세
+## 19-01-16 ~ 19-03-01 , 19-04-01 ~ : 증가추세
+
+
+kalmond_word_des = kalmond %>% filter(cret_dt.x >= "2018-11-01" & cret_dt.x <= "2019-01-15" )
+
+
+
+
+## 감소 추세 워드클라우딩
+
+kalmond_word_des = kalmond %>% select(cret_dt.x, goods_review)
+
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "\\[옵션", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "\\]", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "색상/종류", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "1. 옵션:\\[0001", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "\\[00001", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "\\: 단일속성", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "선택:", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "[ㄱ-ㅎ]+", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "칼몬드100g x 3캔", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "1.옵션:", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "\\[0001칼몬드 100g x 3캔 ", "") 
+kalmond_word_des$goods_review = str_replace_all(kalmond_word_des$goods_review, "[0-9]+", "") 
+
+
+pal2 = brewer.pal(8, "Dark2")
+pal = brewer.pal(12, "Set3")
+
+pal = pal[-c(1:2)]
+pal
+
+
+useNIADic()
+noun = sapply(kalmond_word_des$goods_review, extractNoun, USE.NAMES = F) %>% unlist()
+noun2 = Filter(function(x){nchar(x) >= 2}, noun)
+
+wordFreq = table(noun2)
+noundata = sort(wordFreq, decreasing = TRUE, 200)
+print(noundata)
+
+png("wordcloud.png", width = 400, height = 300)
+wordcloud(names(noundata), freq = noundata, min.freq = 20, random.order = T,
+          rot.per = 0, col = pal)
+
+
+
+
+
+kalmond_word_asc = kalmond %>% filter((cret_dt.x >= "2019-01-16" & cret_dt.x >= "2019-03-01") | (cret_dt.x >= "2019-04-01"))
+
+
+kalmond_word_asc = kalmond_word_asc %>% select(cret_dt.x, goods_review)
+
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "\\[옵션", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "\\]", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "색상/종류", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "1. 옵션:\\[0001", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "\\[00001", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "\\: 단일속성", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "선택:", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "[ㄱ-ㅎ]+", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "칼몬드100g x 3캔", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "1.옵션:", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "\\[0001칼몬드 100g x 3캔 ", "") 
+kalmond_word_asc$goods_review = str_replace_all(kalmond_word_asc$goods_review, "[0-9]+", "") 
+
+
+pal2 = brewer.pal(8, "Dark2")
+pal = brewer.pal(12, "Set3")
+
+pal = pal[-c(1:2)]
+pal
+
+
+useNIADic()
+noun = sapply(kalmond_word_asc$goods_review, extractNoun, USE.NAMES = F) %>% unlist()
+noun2 = Filter(function(x){nchar(x) >= 2}, noun)
+
+wordFreq = table(noun2)
+noundata = sort(wordFreq, decreasing = TRUE, 200)
+print(noundata)
+
+png("wordcloud.png", width = 400, height = 300)
+wordcloud(names(noundata), freq = noundata, min.freq = 20, random.order = T,
+          rot.per = 0, col = pal)
+
+
+
+
+
 
 ggsave("./visualization/칼몬드리뷰_워드클라우드.jpg")
