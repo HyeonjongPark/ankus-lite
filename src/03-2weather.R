@@ -24,6 +24,3 @@ weather %>% filter(area == "서울") %>%
 ggsave("./visualization/서울실제온도max.jpg")
 
 
-
-weather_daegu = weather %>% filter(area == "대구")
-weather_daegu$area = NULL

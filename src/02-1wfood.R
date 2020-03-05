@@ -55,4 +55,23 @@ wfood %>% as.data.table()
 
 wfood = wfood %>% arrange(invoicedate) %>% as.data.table()
 
-#fwrite(wfood, "./preprocessing_data/wfood.csv")
+
+wfood$season = NA 
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("06","07","08")]  = "summer"
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("09","10")]  = "fall"
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("11","12","01","02")]  = "winter"
+wfood$season[substr(wfood$invoicedate, 6, 7) %in% c("03","04","05")]  = "spring"
+
+wfood %>% head
+wfood$item %>% table
+wfood$companyname %>% table()
+
+#wfood %>% mutate(season = ifelse(substr(invoicedate, 6, 7) %in% c("06","07","08") , "summer",
+#                 ifelse(substr(invoicedate, 6, 7) %in% c("09","10"), "fall",
+#                        ifelse(substr(invoicedate, 6, 7) %in% c("11","12","01","02"), "winter",
+#                               ifelse(substr(invoicedate, 6, 7) %in% c("03","04","05"), "spring")))))
+
+
+
+
+fwrite(wfood, "./preprocessing_data/wfood.csv")

@@ -102,14 +102,17 @@ goods$recommand[goods$recommand == "추천"] = 4
 goods$recommand[goods$recommand == "적극추천"] = 5
 
 goods$delivery %>% table()
-goods$delivery[goods$delivery == ""] = "배송보통"
+
 #goods = goods[goods$delivery != "",]
+goods$delivery[goods$delivery == ""] = "배송보통"
 
 goods$delivery_score[goods$delivery == "배송느림"] = -1
 goods$delivery_score[goods$delivery == "배송보통"] = 0
 goods$delivery_score[goods$delivery == "배송빠름"] = 1
 
 goods %>% head
+
+goods$delivery_score %>% table()
 
 goods$recommand = as.integer(goods$recommand)
 library(corrplot)
@@ -153,7 +156,11 @@ rec_mean = rbind(rec_mean, a)
 ggplot(rec_mean, aes(x = recommand, y = mean, fill = sep)) + 
   geom_bar(stat = "identity", position = "dodge")
 
+ggsave("./visualization/추천수와score간의관계.jpg")
 
 goods %>% head
+goods %>% as.data.table()
 
-goods[grep("칼몬드 100g", goods$goods_nm),]
+goods %>% filter(cret_dt.x >= "2019-09-01" & cret_dt.x <= "2019-10-03")
+
+kalmond = goods[grep("칼몬드 100g", goods$goods_nm),]
