@@ -87,7 +87,7 @@ detach(conven_sp)
 
 
 
-
+kalmond = goods[grep("칼몬드 100g", goods$goods_nm),]
 
 kalmond
 
