@@ -1,4 +1,10 @@
 
+library(tidyverse)
+library(data.table)
+library(readxl)
+library(lubridate)
+
+
 
 
 ## 상품 상세 데이터 로드
@@ -122,21 +128,43 @@ table(result$remark)
 gds$remark = result$remark
 gds$score = result$score
 
-gds[gds$score < -5,]
 
-gds %>% group_by(yearmonth) 
 
+
+
+## 20203037
+
+
+a = gds %>% group_by(yearmonth) %>%
+  summarise(mean_score = mean(score), mean_recommand = mean(recommand)) %>%
+  as.data.frame()
+a$mean_score = scale(a$mean_score)
+a$mean_recommand = scale(a$mean_recommand)
+
+cor(a[,-1])
+p = a %>% 
+  ggplot(aes(x = yearmonth, y = mean_score, group = 1)) + geom_line(color = "blue")
+p + geom_line(aes(x = yearmonth, y = mean_recommand), color = "red")
 
 
 gds_nut = gds %>% filter(item == "너트류")
 
 gds_nut %>% as.data.table()
-gds_nut %>% group_by(yearmonth) %>% summarise(rec_mean = mean(recommand)) %>% as.data.frame()
-
-gds_nut %>% as.data.table()
 gds_nut %>% arrange(cret_dt.x) %>% as.data.table()
 
-gds_nut %>% group_by(cret_dt.y)
+
+a = gds_nut %>% group_by(yearmonth) %>%
+  summarise(mean_score = mean(score), mean_recommand = mean(recommand)) %>%
+  as.data.frame()
+a$mean_score = scale(a$mean_score)
+a$mean_recommand = scale(a$mean_recommand)
+
+cor(a[,-1])
+p = a %>% 
+  ggplot(aes(x = yearmonth, y = mean_score, group = 1)) + geom_line(color = "blue")
+p + geom_line(aes(x = yearmonth, y = mean_recommand), color = "red")
+
+
 
 
 gds$cret_dt.x = substr(gds$cret_dt.x, 1, 11)
